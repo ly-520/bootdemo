@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.bootdemo.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.example.bootdemo.pojo.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="com.example.bootdemo.pojo.Role">
+        <id column="id" property="id"/>
+        <result column="rolename" property="roleName" />
+        <result column="roledescribe" property="roleDescribe" />
+    </resultMap>
+
+    <sql id="UserBase_list_column">
+        id,username,password
+    </sql>
+    <sql id="RoleBase_list_column">
+        id,rolename,roledescribe
+    </sql>
+    <select id="selectUserByUsername" resultMap="BaseResultMap">
+        SELECT <include refid="UserBase_list_column" />
+        FROM t_user
+        WHERE username=#{username}
+    </select>
+
+    <select id="getUserRolesByUid" resultType="java.util.List">
+        SELECT <include refid="RoleBase_list_column" />
+        FROM t_role r,t_user u
+        WHERE u.uid=#{id} AND r.id=u.id
+    </select>
+</mapper>
